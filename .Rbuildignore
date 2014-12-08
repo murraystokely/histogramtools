@@ -9,3 +9,4 @@ vignettes/.*.toc
 # Not ready yet.
 R/chisq.R
 R/cmv.R
+^\.travis\.yml$
