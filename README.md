@@ -12,7 +12,7 @@ the usual way from [R](http://www.r-project.org).
 
 ## More Info
 
-[RProtoBuf & HistogramTools: Statistical Analysis Tools for Large Data Sets[(http://google-opensource.blogspot.com/2013/10/rprotobuf-histogramtools-statistical_10.html) Google Open Source Blog, October 10, 2013
+[RProtoBuf & HistogramTools: Statistical Analysis Tools for Large Data Sets](http://google-opensource.blogspot.com/2013/10/rprotobuf-histogramtools-statistical_10.html) Google Open Source Blog, October 10, 2013
 
 ## Authors
 
