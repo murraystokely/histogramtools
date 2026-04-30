@@ -10,3 +10,7 @@ vignettes/.*.toc
 R/chisq.R
 R/cmv.R
 ^\.travis\.yml$
+^\.claude$
+^CLAUDE\.md$
+^\.gitignore$
+^\.github$
