@@ -64,7 +64,7 @@ seconds of age or duration and creates an Ecdf plot.
 \code{\link[stats]{ecdf}}.
 }
 \examples{
-filename <- system.file("unitTests/data/buildkernel-readsize-dtrace.txt",
+filename <- system.file("extdata/buildkernel-readsize-dtrace.txt",
                          package="HistogramTools")
 dtrace.hists <- ReadHistogramsFromDtraceOutputFile(filename)
 x <- SubsetHistogram(dtrace.hists[["TOTAL"]], minbreak=1)

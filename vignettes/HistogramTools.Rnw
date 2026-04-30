@@ -729,7 +729,7 @@ kilobyte.
 
 <<logloghist,fig=TRUE,include=FALSE,echo=FALSE,height=4,width=8>>=
 par(mfrow=c(1,3))
-filename <- system.file("unitTests/data/buildkernel-readsize-dtrace.txt",
+filename <- system.file("extdata/buildkernel-readsize-dtrace.txt",
                         package="HistogramTools")
 dtrace.hists <- ReadHistogramsFromDtraceOutputFile(filename)
 plot(dtrace.hists[["TOTAL"]], main="", freq=FALSE)
