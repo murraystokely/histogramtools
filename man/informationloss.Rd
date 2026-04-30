@@ -66,7 +66,7 @@ loss metrics for the provided histogram.
   Evaluation Review} \bold{27.1} (1999): 59-70.}
 \author{Murray Stokely \email{mstokely@google.com}}
 \seealso{
-\code{\link{histogramtools-package}},
+\code{\link{HistogramTools-package}},
 \code{\link{ecdf}}, and
 \code{\link[graphics]{hist}}.
 }

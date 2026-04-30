@@ -41,7 +41,7 @@ HistToASH(h, m=5, kopt=c(2,2))
     theory, practice, and visualization.} Vol. 383. Wiley. com, 2009.}
 \author{Murray Stokely \email{mstokely@google.com}}
 \seealso{
-\code{\link{histogramtools-package}},
+\code{\link{HistogramTools-package}},
 \code{\link[ash]{ash1}}, and
 \code{\link[graphics]{hist}}.
 }

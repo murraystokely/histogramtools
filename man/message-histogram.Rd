@@ -23,16 +23,14 @@ manipulating large histograms.}
   protocol buffer representation that can be compactly serialized and
   shared with tools written in other languages.
 }
-\author{Murray Stokely \email{mstokely@google.com}}
+\author{Murray Stokely \email{murray@stokely.org}}
 \seealso{
-  \code{\link{histogramtools-package}},
+  \code{\link{HistogramTools-package}},
   \code{\link{as.histogram}}, and
 \code{\link[RProtoBuf]{RProtoBuf}}.
 }
 \examples{
-  if (require(RProtoBuf)) {
-  library(HistogramTools)
-
+  if (requireNamespace("RProtoBuf", quietly = TRUE)) {
   tmp.hist <- hist(c(1,2,4,43,20,33,1,1,3), plot=FALSE)
   # The default R serialization takes a fair number of bytes
   length(serialize(tmp.hist, NULL))
@@ -55,7 +53,7 @@ manipulating large histograms.}
   raw.bytes <- hist.msg$serialize(NULL)
 
   # We can parse the raw bytes as a protocol buffer
-  new.hist.proto <- P("HistogramTools.HistogramState")$read(raw.bytes)
+  new.hist.proto <- RProtoBuf::P("HistogramTools.HistogramState")$read(raw.bytes)
   new.hist.proto
 
   # Then convert back to a native R histogram.

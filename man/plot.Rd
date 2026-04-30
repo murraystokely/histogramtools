@@ -59,7 +59,7 @@ seconds of age or duration and creates an Ecdf plot.
 }
 \author{Murray Stokely \email{mstokely@google.com}}
 \seealso{
-\code{\link{histogramtools-package}},
+\code{\link{HistogramTools-package}},
 \code{\link[graphics]{hist}}.
 \code{\link[stats]{ecdf}}.
 }

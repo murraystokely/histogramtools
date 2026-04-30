@@ -68,7 +68,7 @@ Swain, Michael J., and Dana H. Ballard. "Color indexing." International journal 
 }
 \author{Murray Stokely \email{mstokely@google.com}}
 \seealso{
-\code{\link{histogramtools-package}},
+\code{\link{HistogramTools-package}},
 \code{\link{ecdf}}, and
 \code{\link[graphics]{hist}}.
 }

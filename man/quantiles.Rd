@@ -44,7 +44,7 @@ observations in the histogram.
 \keyword{methods}
 \author{Murray Stokely \email{mstokely@google.com}}
 \seealso{
-\code{\link{histogramtools-package}} and
+\code{\link{HistogramTools-package}} and
 \code{\link[graphics]{hist}}.
 }
 \examples{

@@ -41,7 +41,7 @@ HistToEcdf(h, method="constant", f=0, inverse=FALSE)
 }
 \author{Murray Stokely \email{mstokely@google.com}}
 \seealso{
-\code{\link{histogramtools-package}},
+\code{\link{HistogramTools-package}},
 \code{\link{ecdf}},
 \code{\link[stats]{approxfun}}, and
 \code{\link[graphics]{hist}}.
