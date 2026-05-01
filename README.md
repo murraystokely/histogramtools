@@ -14,6 +14,11 @@ the usual way from [R](http://www.r-project.org).
 
 [RProtoBuf & HistogramTools: Statistical Analysis Tools for Large Data Sets](http://google-opensource.blogspot.com/2013/10/rprotobuf-histogramtools-statistical_10.html) Google Open Source Blog, October 10, 2013
 
+## History
+
+This package was originally developed at Google between 2011 and 2015.
+It is now independently maintained by the original author.
+
 ## Authors
 
 Murray Stokely
