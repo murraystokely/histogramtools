@@ -1,23 +1,36 @@
-Package: HistogramTools
 Type: Package
+Package: HistogramTools
 Title: Utility Functions for R Histograms
 Version: 0.4.0
 Date: 2026-04-29
+Authors@R: c(
+    person("Murray", "Stokely", , "murray@stokely.org", role = c("aut", "cre", "cph"),
+           comment = c(ORCID = "0009-0008-3390-1338")),
+    person(, "Google, Inc.", role = "cph"),
+    person("Tim", "Hesterberg", , "rocket@google.com", role = "ctb")
+  )
 Maintainer: Murray Stokely <murray@stokely.org>
-Authors@R: c(person("Murray", "Stokely", role = c("aut", "cre", "cph"),
-	            email = "murray@stokely.org",
-	            comment = c(ORCID = "0009-0008-3390-1338")),
-             person(family = "Google, Inc.", role = "cph"),
-             person("Tim", "Hesterberg", role = "ctb", email = "rocket@google.com"))
-Copyright: Copyright 2011-2015 Google, Inc.
-    Copyright 2026 Murray Stokely
-Imports: Hmisc, ash
-Suggests: testthat (>= 3.0.0), emdist, gdata
-Enhances: RProtoBuf
-Config/testthat/edition: 3
-Description: Provides a number of utility functions useful for manipulating large histograms.  This includes methods to trim, subset, merge buckets, merge histograms, convert to CDF, and calculate information loss due to binning.  It also provides a protocol buffer representations of the default R histogram class to allow histograms over large data sets to be computed and manipulated in a MapReduce environment.
+Description: Provides a number of utility functions useful for
+    manipulating large histograms.  This includes methods to trim, subset,
+    merge buckets, merge histograms, convert to CDF, and calculate
+    information loss due to binning.  It also provides a protocol buffer
+    representations of the default R histogram class to allow histograms
+    over large data sets to be computed and manipulated in a MapReduce
+    environment.
+License: Apache License 2.0
 URL: https://github.com/murraystokely/histogramtools
 BugReports: https://github.com/murraystokely/histogramtools/issues
-Encoding: UTF-8
+Imports: 
+    ash,
+    Hmisc
+Suggests: 
+    emdist,
+    gdata,
+    testthat (>= 3.0.0)
+Enhances: 
+    RProtoBuf
 Classification/ACM: G.3
-License: Apache License 2.0
+Config/testthat/edition: 3
+Copyright: Copyright 2011-2015 Google, Inc.
+    Copyright 2026 Murray Stokely
+Encoding: UTF-8
