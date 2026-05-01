@@ -4,10 +4,13 @@ Title: Utility Functions for R Histograms
 Version: 0.4.0
 Date: 2026-04-29
 Maintainer: Murray Stokely <murray@stokely.org>
-Authors@R: c(person("Murray", "Stokely", role = c("aut", "cre"),
-	            email = "murray@stokely.org"),
+Authors@R: c(person("Murray", "Stokely", role = c("aut", "cre", "cph"),
+	            email = "murray@stokely.org",
+	            comment = c(ORCID = "0009-0008-3390-1338")),
+             person(family = "Google, Inc.", role = "cph"),
              person("Tim", "Hesterberg", role = "ctb", email = "rocket@google.com"))
-Copyright: Copyright 2011 Google, Inc.
+Copyright: Copyright 2011-2015 Google, Inc.
+    Copyright 2026 Murray Stokely
 Imports: Hmisc, ash
 Suggests: testthat (>= 3.0.0), emdist, gdata
 Enhances: RProtoBuf
