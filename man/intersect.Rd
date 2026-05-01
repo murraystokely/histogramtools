@@ -33,7 +33,7 @@ IntersectHistograms(h1, h2)
 \references{
 Swain, Michael J., and Dana H. Ballard. "Color indexing." International journal of computer vision 7.1 (1991): 11-32.
 }
-\author{Murray Stokely \email{mstokely@google.com}}
+\author{Murray Stokely \email{murray@stokely.org}}
 \seealso{
 \code{\link{HistogramTools-package}},
 \code{\link[graphics]{hist}}.

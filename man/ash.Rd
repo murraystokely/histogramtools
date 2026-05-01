@@ -39,7 +39,7 @@ HistToASH(h, m=5, kopt=c(2,2))
 }
 \references{Scott, David W. \emph{Multivariate density estimation:
     theory, practice, and visualization.} Vol. 383. Wiley. com, 2009.}
-\author{Murray Stokely \email{mstokely@google.com}}
+\author{Murray Stokely \email{murray@stokely.org}}
 \seealso{
 \code{\link{HistogramTools-package}},
 \code{\link[ash]{ash1}}, and

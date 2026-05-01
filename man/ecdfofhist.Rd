@@ -39,7 +39,7 @@ HistToEcdf(h, method="constant", f=0, inverse=FALSE)
   distribution function) of a data set given a binned
   histogram representation of that data set.
 }
-\author{Murray Stokely \email{mstokely@google.com}}
+\author{Murray Stokely \email{murray@stokely.org}}
 \seealso{
 \code{\link{HistogramTools-package}},
 \code{\link{ecdf}},

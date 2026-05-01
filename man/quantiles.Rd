@@ -42,7 +42,7 @@ distribution.  \code{Count(x)} returns the number of
 observations in the histogram.
 }
 \keyword{methods}
-\author{Murray Stokely \email{mstokely@google.com}}
+\author{Murray Stokely \email{murray@stokely.org}}
 \seealso{
 \code{\link{HistogramTools-package}} and
 \code{\link[graphics]{hist}}.

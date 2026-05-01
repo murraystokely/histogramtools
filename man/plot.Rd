@@ -57,7 +57,7 @@ The \code{PlotLogTimeDurationEcdf} function takes a \code{"histogram"}
 or \code{"ecdf"} with exponential bucket boundaries representing
 seconds of age or duration and creates an Ecdf plot.
 }
-\author{Murray Stokely \email{mstokely@google.com}}
+\author{Murray Stokely \email{murray@stokely.org}}
 \seealso{
 \code{\link{HistogramTools-package}},
 \code{\link[graphics]{hist}}.

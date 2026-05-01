@@ -41,7 +41,7 @@ ReadHistogramsFromDtraceOutputFile(filename)
 A list of histogram objects representing the histograms present in the
 Dtrace output file.
 }
-\author{Murray Stokely \email{mstokely@google.com}}
+\author{Murray Stokely \email{murray@stokely.org}}
 \seealso{
 \code{\link{HistogramTools-package}},
 \code{\link[graphics]{hist}}.

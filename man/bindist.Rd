@@ -66,7 +66,7 @@ retrieval." Computer Vision and Pattern Recognition, 1997. Proceedings.,
 
 Swain, Michael J., and Dana H. Ballard. "Color indexing." International journal of computer vision 7.1 (1991): 11-32.
 }
-\author{Murray Stokely \email{mstokely@google.com}}
+\author{Murray Stokely \email{murray@stokely.org}}
 \seealso{
 \code{\link{HistogramTools-package}},
 \code{\link{ecdf}}, and

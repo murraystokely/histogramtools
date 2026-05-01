@@ -30,7 +30,7 @@ ScaleHistogram(x, factor)
   \item{factor}{A number value to scale the bucket counts by.  Defaults
     to 1/Count(x) to normalize the sum of counts of the histogram to 1.}
 }
-\author{Murray Stokely \email{mstokely@google.com}}
+\author{Murray Stokely \email{murray@stokely.org}}
 \seealso{
 \code{\link{HistogramTools-package}},
 \code{\link[graphics]{hist}}.

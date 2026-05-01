@@ -28,7 +28,7 @@ contexts.  This function provides a way to transform the histogram into
 one with fewer buckets by removing sparseness in the tails.
 }
 \keyword{methods}
-\author{Murray Stokely \email{mstokely@google.com}}
+\author{Murray Stokely \email{murray@stokely.org}}
 \seealso{
 \code{\link{HistogramTools-package}} and
 \code{\link[graphics]{hist}}.

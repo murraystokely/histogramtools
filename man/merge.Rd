@@ -44,7 +44,7 @@ objects to be aggregated and returns a name for the new merged
 histogram.  It is normally hidden, but can be viewed using
 \code{HistogramTools:::.NewHistogramName}.
 }
-\author{Murray Stokely \email{mstokely@google.com}}
+\author{Murray Stokely \email{murray@stokely.org}}
 \seealso{
 \code{\link{HistogramTools-package}} and
 \code{\link[graphics]{hist}}.
