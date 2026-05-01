@@ -1,6 +1,11 @@
 ## HistogramTools
 
+<!-- badges: start -->
+
 [![R-CMD-check](https://github.com/murraystokely/histogramtools/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/murraystokely/histogramtools/actions/workflows/R-CMD-check.yaml)
+[![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/HistogramTools)](https://cran.r-project.org/package=HistogramTools)
+[![Codecov test coverage](https://codecov.io/gh/murraystokely/histogramtools/graph/badge.svg)](https://app.codecov.io/gh/murraystokely/histogramtools)
+<!-- badges: end -->
 
 This package provides a number of utility functions useful for manipulating large histograms. This includes methods to trim, subset, merge buckets, merge histograms, convert to CDF, and calculate information loss due to binning. It also provides a protocol buffer representations of the default R histogram class to allow histograms over large data sets to be computed and manipulated in a MapReduce environment.
 
