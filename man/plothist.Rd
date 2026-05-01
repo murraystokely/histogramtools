@@ -35,9 +35,9 @@ The default \code{\link[graphics]{plot.histogram}} function supports Frequency o
 Density plots, but does not provide a way to produce a relative
 frequency histogram.  This function plots this type of histogram.
 }
-\author{Murray Stokely \email{mstokely@google.com}}
+\author{Murray Stokely \email{murray@stokely.org}}
 \seealso{
-\code{\link{histogramtools-package}},
+\code{\link{HistogramTools-package}},
 \code{\link[graphics]{hist}},
 \code{\link[graphics]{plot.histogram}}.
 }

@@ -57,14 +57,14 @@ The \code{PlotLogTimeDurationEcdf} function takes a \code{"histogram"}
 or \code{"ecdf"} with exponential bucket boundaries representing
 seconds of age or duration and creates an Ecdf plot.
 }
-\author{Murray Stokely \email{mstokely@google.com}}
+\author{Murray Stokely \email{murray@stokely.org}}
 \seealso{
-\code{\link{histogramtools-package}},
+\code{\link{HistogramTools-package}},
 \code{\link[graphics]{hist}}.
 \code{\link[stats]{ecdf}}.
 }
 \examples{
-filename <- system.file("unitTests/data/buildkernel-readsize-dtrace.txt",
+filename <- system.file("extdata/buildkernel-readsize-dtrace.txt",
                          package="HistogramTools")
 dtrace.hists <- ReadHistogramsFromDtraceOutputFile(filename)
 x <- SubsetHistogram(dtrace.hists[["TOTAL"]], minbreak=1)

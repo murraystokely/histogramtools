@@ -31,8 +31,8 @@ PreBinnedHistogram(breaks, counts, xname="")
     histogram.}
   \item{xname}{A character string with the name for this histogram.}
 }
-\author{Murray Stokely \email{mstokely@google.com}}
+\author{Murray Stokely \email{murray@stokely.org}}
 \seealso{
-\code{\link{histogramtools-package}},
+\code{\link{HistogramTools-package}},
 \code{\link[graphics]{hist}}.
 }

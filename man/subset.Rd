@@ -39,9 +39,9 @@ interior part of the distribution.  At least one of \code{minbreak} or
 returned unmodified.
 }
 \keyword{methods}
-\author{Murray Stokely \email{mstokely@google.com}}
+\author{Murray Stokely \email{murray@stokely.org}}
 \seealso{
-\code{\link{histogramtools-package}} and
+\code{\link{HistogramTools-package}} and
 \code{\link[graphics]{hist}}.
 }
 \examples{

@@ -64,9 +64,9 @@ loss metrics for the provided histogram.
 \references{Douceur, John R., and William J. Bolosky. "A large-scale
   study of file-system contents." \emph{ACM SIGMETRICS Performance
   Evaluation Review} \bold{27.1} (1999): 59-70.}
-\author{Murray Stokely \email{mstokely@google.com}}
+\author{Murray Stokely \email{murray@stokely.org}}
 \seealso{
-\code{\link{histogramtools-package}},
+\code{\link{HistogramTools-package}},
 \code{\link{ecdf}}, and
 \code{\link[graphics]{hist}}.
 }
