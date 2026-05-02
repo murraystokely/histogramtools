@@ -52,3 +52,38 @@ test_that("EMDCC respects [0,1] and matches emdist::emd when emdist is available
   # emdist uses single-precision floats internally, hence the 2^-23 tolerance.
   expect_equal(emdist::emd(A1, A2), emdcc.1, tolerance = 2^-23)
 })
+
+# ----- PlotKSDCC / PlotEMDCC smoke tests -------------------------------------
+# These are pure side-effect plotting wrappers. We verify they run to
+# completion on a representative input without erroring; visual
+# correctness is out of scope.
+
+with_null_pdf <- function(expr) {
+  pdf_file <- tempfile(fileext = ".pdf")
+  pdf(pdf_file)
+  on.exit({
+    dev.off()
+    unlink(pdf_file)
+  })
+  force(expr)
+}
+
+test_that("PlotKSDCC runs without error on a histogram", {
+  set.seed(0)
+  h <- hist(rexp(100), plot = FALSE)
+  expect_no_error(with_null_pdf(PlotKSDCC(h)))
+})
+
+test_that("PlotKSDCC errors on non-histogram input", {
+  expect_error(with_null_pdf(PlotKSDCC(c(1, 2, 3))))
+})
+
+test_that("PlotEMDCC runs without error on a histogram", {
+  set.seed(0)
+  h <- hist(rexp(100), plot = FALSE)
+  expect_no_error(with_null_pdf(PlotEMDCC(h)))
+})
+
+test_that("PlotEMDCC errors on non-histogram input", {
+  expect_error(with_null_pdf(PlotEMDCC(c(1, 2, 3))))
+})
