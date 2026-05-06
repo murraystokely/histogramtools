@@ -1,4 +1,4 @@
-# HistogramTools 0.4.1
+# HistogramTools 0.4.1 (2026-05-06)
 
 Addresses CRAN reviewer feedback on the 0.4.0 resubmission.
 
@@ -19,7 +19,7 @@ Addresses CRAN reviewer feedback on the 0.4.0 resubmission.
   restore them at the end, so building the vignettes leaves the user's
   graphics parameters and options unchanged.
 
-# HistogramTools 0.4.0
+# HistogramTools 0.4.0 (2026-04-29)
 
 Returns the package to CRAN after its 2024-04-20 archival.
 
