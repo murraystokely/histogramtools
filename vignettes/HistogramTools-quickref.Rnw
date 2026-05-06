@@ -26,7 +26,8 @@
 \usepackage[colorlinks]{hyperref}
 
 <<echo=FALSE,print=FALSE>>=
-options(width=50)
+oldoptions <- options(width=50)
+oldpar <- par(no.readonly = TRUE)
 library(HistogramTools)
 set.seed(0)
 ht.version <- packageDescription("HistogramTools")$Version
@@ -141,6 +142,10 @@ if(require(RProtoBuf)) {
   hist.msg <- as.Message(h)
   length(hist.msg$serialize(NULL))
 }
+@
+<<echo=FALSE,print=FALSE>>=
+par(oldpar)
+options(oldoptions)
 @
 
 \paragraph{Common HistogramTools Functions}

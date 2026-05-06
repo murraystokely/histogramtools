@@ -39,6 +39,14 @@ HistToEcdf(h, method="constant", f=0, inverse=FALSE)
   distribution function) of a data set given a binned
   histogram representation of that data set.
 }
+\value{
+  A function of class \code{c("ecdf", "stepfun", "function")}, as
+  returned by \code{\link[stats]{ecdf}}.  Calling it with a numeric
+  vector \code{x} returns the approximate cumulative probability at
+  each value of \code{x}.  If \code{inverse=TRUE} the returned function
+  instead maps a probability in \code{[0,1]} to the corresponding
+  approximate quantile.
+}
 \author{Murray Stokely \email{murray@stokely.org}}
 \seealso{
 \code{\link{HistogramTools-package}},

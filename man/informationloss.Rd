@@ -61,6 +61,13 @@ The \code{PlotKSDCC} and \code{PlotEMDCC} functions take a histogram and
 generate a plot showing a geometric representation of the information
 loss metrics for the provided histogram.
 }
+\value{
+  \code{KSDCC} and \code{EMDCC} each return a single numeric value
+  between 0 and 1 quantifying the information loss for the supplied
+  histogram.  \code{PlotKSDCC} and \code{PlotEMDCC} have no return
+  value and are called for the side effect of drawing an annotated
+  ECDF plot on the current graphics device.
+}
 \references{Douceur, John R., and William J. Bolosky. "A large-scale
   study of file-system contents." \emph{ACM SIGMETRICS Performance
   Evaluation Review} \bold{27.1} (1999): 59-70.}
@@ -86,12 +93,8 @@ x.min <- rep(head(h$breaks, -1), h$counts)
 x.max <- rep(tail(h$breaks, -1), h$counts)
 ks.test(x.min, x.max, exact=FALSE)
 
-\dontrun{
 PlotKSDCC(h)
-}
 
 EMDCC(h)
-\dontrun{
 PlotEMDCC(h)
-}
 }

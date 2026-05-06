@@ -45,7 +45,8 @@
 
 <<echo=FALSE,print=FALSE>>=
 library("HistogramTools")
-options("width"=65)
+oldoptions <- options("width"=65)
+oldpar <- par(no.readonly = TRUE)
 set.seed(0)
 ht.version <- packageDescription("HistogramTools")$Version
 prettyDate <- format(Sys.Date(), "%B %e, %Y")
@@ -982,6 +983,11 @@ production monitoring tools and databases, as well as the output of
 many MapReduce jobs have been used.
 
 \bibliography{refs}
+
+<<echo=FALSE,print=FALSE>>=
+par(oldpar)
+options(oldoptions)
+@
 
 \end{document}
 %%  LocalWords:  HistogramTools MapReduce RProtoBuf rprotobuf proto

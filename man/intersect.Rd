@@ -30,6 +30,11 @@ IntersectHistograms(h1, h2)
   \item{h1,h2}{\code{"histogram"} objects (created by
     \code{\link[graphics]{hist}}) representing a dataset summarized by binning.}
 }
+\value{
+  An object of class \code{"histogram"} whose \code{breaks} match those
+  of the input histograms and whose \code{counts} are the elementwise
+  minimum of the counts in \code{h1} and \code{h2}.
+}
 \references{
 Swain, Michael J., and Dana H. Ballard. "Color indexing." International journal of computer vision 7.1 (1991): 11-32.
 }

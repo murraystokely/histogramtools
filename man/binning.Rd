@@ -31,6 +31,13 @@ PreBinnedHistogram(breaks, counts, xname="")
     histogram.}
   \item{xname}{A character string with the name for this histogram.}
 }
+\value{
+  An object of class \code{"histogram"} (a list with components
+  \code{breaks}, \code{counts}, \code{density}, \code{mids}, \code{xname},
+  and \code{equidist}) constructed from the supplied breaks and counts,
+  suitable for plotting with \code{\link[graphics]{plot.histogram}} or for
+  use with the other functions in this package.
+}
 \author{Murray Stokely \email{murray@stokely.org}}
 \seealso{
 \code{\link{HistogramTools-package}},
