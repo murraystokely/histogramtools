@@ -38,6 +38,12 @@ interior part of the distribution.  At least one of \code{minbreak} or
 \code{maxbreak} should be set, otherwise the original histogram is
 returned unmodified.
 }
+\value{
+  An object of class \code{"histogram"} containing only the buckets of
+  \code{x} whose boundaries lie within \code{[minbreak, maxbreak]}; the
+  remaining buckets, breaks, and other components are recomputed to be
+  internally consistent.
+}
 \keyword{methods}
 \author{Murray Stokely \email{murray@stokely.org}}
 \seealso{

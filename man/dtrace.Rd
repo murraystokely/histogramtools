@@ -47,12 +47,14 @@ Dtrace output file.
 \code{\link[graphics]{hist}}.
 }
 \examples{
-\dontrun{
-system("dtrace -n 'syscall::read:return { @[execname] = quantize(arg0);}> /tmp/dtraceoutput'",
-  intern=TRUE)
-system.readsize.hists <- ReadHistogramsFromDtraceOutputFile("/tmp/dtraceoutput")
-plot(system.readsize.hists[[1]])
-}
+# A sample DTrace output file is bundled with the package.  In a real
+# DTrace session the file would be produced by something like:
+#   dtrace -n 'syscall::read:return { @[execname] = quantize(arg0); }' \
+#     > /tmp/dtraceoutput
+filename <- system.file("extdata/buildkernel-readsize-dtrace.txt",
+                        package="HistogramTools")
+read.size.hists <- ReadHistogramsFromDtraceOutputFile(filename)
+plot(read.size.hists[["TOTAL"]])
 }
 \keyword{manip}
 \keyword{utilities}

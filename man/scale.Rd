@@ -30,6 +30,12 @@ ScaleHistogram(x, factor)
   \item{factor}{A number value to scale the bucket counts by.  Defaults
     to 1/Count(x) to normalize the sum of counts of the histogram to 1.}
 }
+\value{
+  An object of class \code{"histogram"} with the same \code{breaks} as
+  \code{x} and \code{counts} multiplied by \code{factor}; the
+  \code{density} and \code{mids} components are recomputed to remain
+  consistent.
+}
 \author{Murray Stokely \email{murray@stokely.org}}
 \seealso{
 \code{\link{HistogramTools-package}},

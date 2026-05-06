@@ -54,6 +54,11 @@ divergence between two histograms.
 The \code{jeffrey.divergence} function computes the Jeffrey
 divergence between two histograms.
 }
+\value{
+  Each function returns a single non-negative numeric value giving the
+  computed distance or divergence between the two histograms.  Larger
+  values correspond to histograms that are more dissimilar.
+}
 \references{
 Rubner, Yossi, Carlo Tomasi, and Leonidas J. Guibas. "The earth mover's
 distance as a metric for image retrieval." International Journal of

@@ -1,3 +1,24 @@
+# HistogramTools 0.4.1
+
+Addresses CRAN reviewer feedback on the 0.4.0 resubmission.
+
+* `DESCRIPTION`: cite the methods implemented by the package
+  (Rubner, Tomasi & Guibas 2000; Swain & Ballard 1991; Puzicha, Hofmann &
+  Buhmann 1997; Scott 2015) using the `<doi:...>` / `ISBN:...` form CRAN
+  expects.
+* `man/*.Rd`: add a `\value` section to every exported function, giving
+  the class and meaning of the returned object (or noting that the
+  function is called for its side effect).
+* `man/dtrace.Rd`: replace the `\dontrun{}` example, which required a
+  live DTrace install, with a runnable one that parses the bundled
+  `inst/extdata/buildkernel-readsize-dtrace.txt` sample.
+* `man/informationloss.Rd`: unwrap the `PlotKSDCC` / `PlotEMDCC` calls
+  from `\dontrun{}`; they run in well under five seconds.
+* `vignettes/HistogramTools.Rnw`, `vignettes/HistogramTools-quickref.Rnw`:
+  capture `par()` and `options()` at the top of each vignette and
+  restore them at the end, so building the vignettes leaves the user's
+  graphics parameters and options unchanged.
+
 # HistogramTools 0.4.0
 
 Returns the package to CRAN after its 2024-04-20 archival.

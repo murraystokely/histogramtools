@@ -44,6 +44,13 @@ objects to be aggregated and returns a name for the new merged
 histogram.  It is normally hidden, but can be viewed using
 \code{HistogramTools:::.NewHistogramName}.
 }
+\value{
+  \code{AddHistograms} returns an object of class \code{"histogram"}
+  whose \code{breaks} match those of the inputs and whose \code{counts}
+  are the elementwise sum of the counts of the supplied histograms.
+  \code{.NewHistogramName} returns a single character string suitable
+  for use as the \code{xname} of the merged histogram.
+}
 \author{Murray Stokely \email{murray@stokely.org}}
 \seealso{
 \code{\link{HistogramTools-package}} and

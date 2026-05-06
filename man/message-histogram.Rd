@@ -23,6 +23,13 @@ manipulating large histograms.}
   protocol buffer representation that can be compactly serialized and
   shared with tools written in other languages.
 }
+\value{
+  An RProtoBuf \code{"Message"} object of type
+  \code{HistogramTools.HistogramState} containing the histogram's
+  \code{breaks}, \code{counts}, and \code{name} fields.  The returned
+  message can be serialized to a compact binary representation with its
+  \code{$serialize()} method for sharing with tools in other languages.
+}
 \author{Murray Stokely \email{murray@stokely.org}}
 \seealso{
   \code{\link{HistogramTools-package}},

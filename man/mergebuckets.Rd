@@ -41,6 +41,14 @@ thousands of buckets so as to be applicable in a wide range of
 contexts.  This function provides a way to transform the histogram into
 one with fewer buckets.
 }
+\value{
+  An object of class \code{"histogram"} with bucket boundaries derived
+  from \code{adj.buckets} or \code{breaks} and counts produced by
+  applying \code{FUN} to the counts of the corresponding adjacent
+  buckets in \code{x}.  The returned object covers the same range as
+  \code{x} and is suitable for plotting with
+  \code{\link[graphics]{plot.histogram}}.
+}
 \keyword{methods}
 \author{Murray Stokely \email{murray@stokely.org}}
 \seealso{

@@ -26,6 +26,14 @@ manipulating large histograms.}
   message and extracts the buckets and counts to populate into the
   standard R histogram class which can be plotted.
 }
+\value{
+  An object of class \code{"histogram"} (a list with components
+  \code{breaks}, \code{counts}, \code{density}, \code{mids}, \code{xname},
+  and \code{equidist}) reconstructed from the supplied
+  \code{HistogramTools.HistogramState} protocol buffer, suitable for use
+  with \code{\link[graphics]{plot.histogram}} and the other functions in
+  this package.
+}
 \author{Murray Stokely \email{murray@stokely.org}}
 \seealso{
 \code{\link{HistogramTools-package}},

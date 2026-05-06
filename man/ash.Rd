@@ -37,6 +37,12 @@ HistToASH(h, m=5, kopt=c(2,2))
   the \code{\link[ash]{ash1}()} function in the ash package to compute
   the average shifted histogram.
 }
+\value{
+  A list of class \code{"ash"} as returned by \code{\link[ash]{ash1}()},
+  containing components \code{x} and \code{y} giving the bin centers and
+  estimated density values for the average shifted histogram, suitable
+  for use with \code{\link[graphics]{plot}} or \code{\link[graphics]{lines}}.
+}
 \references{Scott, David W. \emph{Multivariate density estimation:
     theory, practice, and visualization.} Vol. 383. Wiley. com, 2009.}
 \author{Murray Stokely \email{murray@stokely.org}}

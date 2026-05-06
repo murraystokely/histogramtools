@@ -27,6 +27,12 @@ thousands of buckets so as to be applicable in a wide range of
 contexts.  This function provides a way to transform the histogram into
 one with fewer buckets by removing sparseness in the tails.
 }
+\value{
+  An object of class \code{"histogram"} identical to \code{x} except
+  with consecutive zero-count buckets removed from the requested
+  tails.  If all buckets of \code{x} are empty the histogram is
+  returned unchanged with a warning.
+}
 \keyword{methods}
 \author{Murray Stokely \email{murray@stokely.org}}
 \seealso{

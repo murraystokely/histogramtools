@@ -41,6 +41,17 @@ approximations of the quantile, median, mean, etc of the underlying
 distribution.  \code{Count(x)} returns the number of
 observations in the histogram.
 }
+\value{
+  \code{Count} returns a single numeric value giving the total number
+  of observations summarized by the histogram (the sum of
+  \code{x$counts}).  \code{ApproxMean} returns a single numeric value
+  giving an approximation of the mean of the underlying distribution
+  computed as a weighted mean of the bucket midpoints.
+  \code{ApproxQuantile} returns a numeric vector the same length as
+  \code{probs} containing approximate quantiles of the underlying
+  distribution; if \code{probs} is named the result is named
+  accordingly.
+}
 \keyword{methods}
 \author{Murray Stokely \email{murray@stokely.org}}
 \seealso{
