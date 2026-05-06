@@ -28,3 +28,12 @@ test_that("SubsetHistogram is a no-op when bounds match the existing endpoints",
   expect_equal(hist.nosubset$breaks, hist.1$breaks)
   expect_equal(hist.nosubset$counts, hist.1$counts)
 })
+
+test_that("SubsetHistogram with both bounds NULL warns and returns the input", {
+  hist.1 <- hist(c(1, 1, 2, 2, 7), breaks = 0:9, plot = FALSE)
+  expect_warning(
+    out <- SubsetHistogram(hist.1),
+    "No new breakpoints specified"
+  )
+  expect_equal(out, hist.1)
+})
