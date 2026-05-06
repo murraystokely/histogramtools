@@ -13,3 +13,4 @@ R/cmv.R
 ^CLAUDE\.md$
 ^\.gitignore$
 ^\.github$
+^cran-comments\.md$
