@@ -7,7 +7,7 @@ Authors@R: c(
     person("Murray", "Stokely", , "murray@stokely.org", role = c("aut", "cre", "cph"),
            comment = c(ORCID = "0009-0008-3390-1338")),
     person(, "Google, Inc.", role = "cph"),
-    person("Tim", "Hesterberg", , "rocket@google.com", role = "ctb")
+    person("Tim", "Hesterberg", , "timhesterberg@gmail.com", role = "ctb")
   )
 Maintainer: Murray Stokely <murray@stokely.org>
 Description: Provides a number of utility functions useful for
