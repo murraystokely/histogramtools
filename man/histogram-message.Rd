@@ -9,8 +9,8 @@
 useful for manipulating large histograms.  It provides a
 \file{HistogramTools.HistogramState} protocol buffer representation of
 the default R histogram class to allow histograms to be very concisely
-serialized and shared with other systems in a distributed MapReduce
-environment.  It also includes a number of utility functions for
+serialized and shared between the services and monitoring pipelines of
+a distributed system.  It also includes a number of utility functions for
 manipulating large histograms.}
 
 \usage{

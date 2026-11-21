@@ -1,19 +1,24 @@
 Type: Package
 Package: HistogramTools
 Title: Utility Functions for R Histograms
-Version: 0.4.1
-Date: 2026-05-06
+Version: 0.5.0
+Date: 2026-11-21
 Authors@R: c(
     person("Murray", "Stokely", , "murray@stokely.org", role = c("aut", "cre", "cph"),
            comment = c(ORCID = "0009-0008-3390-1338")),
     person(, "Google, Inc.", role = "cph"),
-    person("Tim", "Hesterberg", , "timhesterberg@gmail.com", role = "ctb")
+    person("Tim", "Hesterberg", , "timhesterberg@gmail.com", role = c("aut", "cph"))
   )
 Maintainer: Murray Stokely <murray@stokely.org>
 Description: Provides a number of utility functions useful for
     manipulating large histograms.  This includes methods to trim, subset,
     merge buckets, merge histograms, convert to CDF, and calculate
-    information loss due to binning.  It also provides a protocol buffer
+    information loss due to binning.  Polynomial histograms store the
+    mean and variance of each bucket alongside its count; the package
+    builds and merges them, gives a closed-form worst-case bound on the
+    information they lose about the underlying distribution, and
+    estimates the CDF and quantiles from the stored moments by a
+    maximum-entropy reconstruction.  It also provides a protocol buffer
     representation of R's native histogram class to allow histograms over
     large data sets to be computed and combined in distributed analytical
     pipelines.  Implements bin-by-bin histogram distance measures
@@ -31,11 +36,12 @@ Imports:
 Suggests: 
     emdist,
     gdata,
+    statmod,
     testthat (>= 3.0.0)
 Enhances: 
     RProtoBuf
 Classification/ACM: G.3
 Config/testthat/edition: 3
 Copyright: Copyright 2011-2015 Google, Inc.
-    Copyright 2026 Murray Stokely
+    Copyright 2026 Murray Stokely and Tim Hesterberg
 Encoding: UTF-8

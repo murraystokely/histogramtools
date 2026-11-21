@@ -13,7 +13,10 @@ Removes empty consecutive buckets at the tails of a histogram.
 TrimHistogram(x, left=TRUE, right=TRUE)
 }
 \arguments{
-  \item{x}{A histogram object (created by \code{\link[graphics]{hist}}).}
+  \item{x}{A histogram object (created by \code{\link[graphics]{hist}})
+    or a polynomial histogram (created by
+    \code{\link{PolynomialHistogram}}), whose per-bucket moments are
+    kept for the retained buckets.}
   \item{left}{If \code{TRUE}, consecutive buckets in the left tail of the
     histogram without any elements will
     be removed from the returned histogram.}
@@ -22,9 +25,9 @@ TrimHistogram(x, left=TRUE, right=TRUE)
     be removed from the returned histogram.}
 }
 \details{
-Many data analysis pipelines write out histogram protocol buffers with
-thousands of buckets so as to be applicable in a wide range of
-contexts.  This function provides a way to transform the histogram into
+Telemetry and monitoring pipelines often export histograms with
+thousands of buckets so that one bucket layout serves every metric
+they record.  This function provides a way to transform the histogram into
 one with fewer buckets by removing sparseness in the tails.
 }
 \value{

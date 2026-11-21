@@ -25,7 +25,10 @@ larger histogram and discarding tail buckets.
   SubsetHistogram(x, minbreak=NULL, maxbreak=NULL)
 }
 \arguments{
-  \item{x}{A histogram object (created by \code{\link[graphics]{hist}}).}
+  \item{x}{A histogram object (created by \code{\link[graphics]{hist}})
+    or a polynomial histogram (created by
+    \code{\link{PolynomialHistogram}}), whose per-bucket moments are
+    kept for the retained buckets.}
   \item{minbreak}{If non-\code{NULL}, specifies a new minimum breakpoint
 for the returned histogram.  Must be one of the existing breakpoints of \code{x}.}
   \item{maxbreak}{If non-\code{NULL}, specifies a new maximum breakpoint

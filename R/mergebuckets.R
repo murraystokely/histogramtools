@@ -52,6 +52,27 @@
 
   i <- which(x$breaks %in% breaks)
   bucket.grouping <- rep(head(breaks, -1), diff(i))
+  return(.MergeBucketsByGrouping(x, bucket.grouping, FUN))
+}
+
+.MergeBucketsByGrouping <- function(x, bucket.grouping, FUN=sum) {
+  # Merges the buckets of x that share a value of bucket.grouping (the
+  # lower break of each new bucket, one entry per old bucket, in
+  # order).  Counts combine by FUN; the per-bucket moments of a
+  # polynomial histogram pool exactly, which is only meaningful for
+  # FUN=sum.
+  if (inherits(x, "polynomial.histogram")) {
+    if (!identical(FUN, sum)) {
+      stop("Buckets of a polynomial histogram can only be merged with FUN=sum.")
+    }
+    group <- match(bucket.grouping, unique(bucket.grouping))
+    pooled <- .PoolBucketMoments(x$counts, x$means, x$variances, group)
+    x$counts <- pooled$counts
+    x$means <- pooled$means
+    if (!is.null(x$variances)) x$variances <- pooled$variances
+    x$breaks <- c(unique(bucket.grouping), tail(x$breaks, 1))
+    return(.UpdateHistogram(x))
+  }
   tmp.df <- aggregate(x$counts, by=list(breaks=bucket.grouping), FUN)
 
   x$counts <- tmp.df$x
@@ -104,12 +125,5 @@ MergeBuckets <- function(x, adj.buckets=NULL, breaks=NULL, FUN=sum) {
   # or: seq(from = 1, by = adj.buckets, length = new.bucket.count + 1)
   bucket.grouping <- rep(x$breaks[1+(0:new.bucket.count)*adj.buckets],
                          each=adj.buckets, length.out=length(x$counts))
-
-  tmp.df <- aggregate(x$counts, by=list(breaks=bucket.grouping), FUN)
-
-  x$counts <- tmp.df$x
-  x$breaks <- c(tmp.df$breaks, tail(x$breaks, 1))
-
-  # Updated the other named list elements of the histogram class and return.
-  return(.UpdateHistogram(x))
+  return(.MergeBucketsByGrouping(x, bucket.grouping, FUN))
 }

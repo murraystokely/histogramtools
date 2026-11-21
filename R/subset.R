@@ -32,6 +32,8 @@ SubsetHistogram <- function(x, minbreak=NULL, maxbreak=NULL) {
     num.to.cut <- sum(x$breaks < minbreak)
     x$breaks <- tail(x$breaks, -num.to.cut)
     x$counts <- tail(x$counts, -num.to.cut)
+    if (!is.null(x$means)) x$means <- tail(x$means, -num.to.cut)
+    if (!is.null(x$variances)) x$variances <- tail(x$variances, -num.to.cut)
   }
   if (!is.null(maxbreak)) {
     stopifnot(is.numeric(maxbreak), length(maxbreak) == 1)
@@ -43,7 +45,13 @@ SubsetHistogram <- function(x, minbreak=NULL, maxbreak=NULL) {
     num.to.cut <- length(which(x$breaks > maxbreak))
     x$breaks <- head(x$breaks, -num.to.cut)
     x$counts <- head(x$counts, -num.to.cut)
+    if (!is.null(x$means)) x$means <- head(x$means, -num.to.cut)
+    if (!is.null(x$variances)) x$variances <- head(x$variances, -num.to.cut)
   }
   # Return a new histogram to update density, mids fields.
+  if (inherits(x, "polynomial.histogram")) {
+    return(PreBinnedPolynomialHistogram(x$breaks, x$counts, x$means, x$variances,
+                                        x$xname))
+  }
   return(.BuildHistogram(x$breaks, x$counts, x$xname))
 }

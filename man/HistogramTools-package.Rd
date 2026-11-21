@@ -10,8 +10,12 @@
 \description{This package provides a number of utility functions for
   manipulating R's native histogram objects.  The functions are focused
   on operations that are particularly useful when dealing with large
-  numbers of histograms with identical buckets, such as those produced
-  from distributed MapReduce computations.  This package also provides a
+  numbers of histograms with identical buckets, such as those exported
+  by cloud telemetry and monitoring systems.  Polynomial histograms,
+  which store the mean and variance of each bucket alongside its count,
+  are supported with a closed-form worst-case information-loss bound
+  and CDF and quantile estimation from the stored moments (see
+  \code{\link{PolynomialHistogram}}).  This package also provides a
   \file{HistogramTools.HistogramState} protocol buffer representation of
   the default R histogram class to allow histograms to be very concisely
   serialized and shared with other systems.
@@ -32,9 +36,12 @@ SubsetHistogram       Subset a histogram by removing some of the buckets.
 TrimHistogram         Remove empty buckets from the tails of a histogram.
 ScaleHistogram        Scale histogram bucket counts by a numeric value.
 PreBinnedHistogram    Generate a histogram from pre-binned data.
+PolynomialHistogram   Generate a histogram that stores per-bucket moments.
+PreBinnedPolynomialHistogram  Generate a polynomial histogram from pre-binned statistics.
 AshFromHist           Compute Average Shifted Histogram from a histogram.
 KSDCC                 Compute maximal KS-statistic of CDFs constructed from histogram.
 EMDCC                 Compute maximal Earth Mover's Distance of CDFs constructed from histogram.
+EMDCCPerBucket        Closed-form worst-case EMDCC of one bucket with stored moments.
 PlotKSDCC             Plot the KSDCC metric and a CDF from the histogram.
 PlotEMDCC             Plot the EMDCC metric and a CDF from the histogram.
 PlotLog2ByteEcdf      Plot the CDF from a histogram with log2 scaled byte boundaries.

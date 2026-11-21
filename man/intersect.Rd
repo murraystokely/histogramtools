@@ -33,7 +33,9 @@ IntersectHistograms(h1, h2)
 \value{
   An object of class \code{"histogram"} whose \code{breaks} match those
   of the input histograms and whose \code{counts} are the elementwise
-  minimum of the counts in \code{h1} and \code{h2}.
+  minimum of the counts in \code{h1} and \code{h2}.  The result is
+  count-only even for polynomial histograms, since the intersection of
+  two buckets has no defined moments.
 }
 \references{
 Swain, Michael J., and Dana H. Ballard. "Color indexing." International journal of computer vision 7.1 (1991): 11-32.

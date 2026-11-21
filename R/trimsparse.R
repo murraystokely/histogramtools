@@ -44,6 +44,11 @@
     mids <- head(mids, biggest.nonzero)
     density <- head(density, biggest.nonzero)
   })
+  # The per-bucket moments of a polynomial histogram follow the counts.
+  if (!is.null(new.hist$means)) new.hist$means <- head(new.hist$means, biggest.nonzero)
+  if (!is.null(new.hist$variances)) {
+    new.hist$variances <- head(new.hist$variances, biggest.nonzero)
+  }
   attributes(new.hist) <- attributes(x)
   return(new.hist)
 }
@@ -72,6 +77,10 @@
     mids <- tail(mids, length(mids) - smallest.nonzero + 1)
     density <- tail(density, length(density) - smallest.nonzero + 1)
   })
+  # The per-bucket moments of a polynomial histogram follow the counts.
+  keep <- length(new.hist$counts)
+  if (!is.null(new.hist$means)) new.hist$means <- tail(new.hist$means, keep)
+  if (!is.null(new.hist$variances)) new.hist$variances <- tail(new.hist$variances, keep)
   attributes(new.hist) <- attributes(x)
   return(new.hist)
 }

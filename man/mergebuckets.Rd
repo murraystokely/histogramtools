@@ -24,7 +24,11 @@ Merge adjacent buckets in a histogram and return a new histogram.
   MergeBuckets(x, adj.buckets=NULL, breaks=NULL, FUN=sum)
 }
 \arguments{
-  \item{x}{A histogram object (created by \code{\link[graphics]{hist}}).}
+  \item{x}{A histogram object (created by \code{\link[graphics]{hist}}),
+    or a polynomial histogram (created by
+    \code{\link{PolynomialHistogram}}), whose per-bucket moments are
+    pooled exactly into the merged buckets; this requires
+    \code{FUN=sum}.}
   \item{adj.buckets}{The number of adjacent buckets to merge together.}
   \item{breaks}{If \code{adj.buckets} is equal to \code{NULL}, then this
     argument either specifies a vector giving the breakpoints between cells, or a
@@ -36,9 +40,9 @@ Merge adjacent buckets in a histogram and return a new histogram.
     counts of adjacent buckets in the histogram.}
 }
 \details{
-Many data analysis pipelines write out histogram protocol buffers with
-thousands of buckets so as to be applicable in a wide range of
-contexts.  This function provides a way to transform the histogram into
+Telemetry and monitoring pipelines often export histograms with
+thousands of buckets so that one bucket layout serves every metric
+they record.  This function provides a way to transform the histogram into
 one with fewer buckets.
 }
 \value{

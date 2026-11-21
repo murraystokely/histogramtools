@@ -46,6 +46,11 @@ PreBinnedHistogram <- .BuildHistogram <- function(breaks, counts, xname="") {
   stopifnot(is.numeric(x$breaks), is.numeric(x$counts))
   stopifnot(length(x$breaks) > 1)
   stopifnot(length(x$breaks) == (length(x$counts) + 1))
+  # A polynomial histogram's per-bucket moments must stay aligned with
+  # its counts; a caller that reshaped the buckets without pooling them
+  # is caught here rather than left with stale statistics.
+  if (!is.null(x$means)) stopifnot(length(x$means) == length(x$counts))
+  if (!is.null(x$variances)) stopifnot(length(x$variances) == length(x$counts))
   x$density <- x$counts / (sum(x$counts) * diff(x$breaks))
   x$mids <-  (head(x$breaks, -1) + tail(x$breaks, -1)) / 2
   x$equidist <- .BreaksAreEquidistant(x$breaks)
@@ -80,6 +85,26 @@ PreBinnedHistogram <- .BuildHistogram <- function(breaks, counts, xname="") {
   # Now we know that all histograms have identical breaks.
   cnts <- unname(lapply(x, function(y) y$counts))
   sum.cnts <- Reduce("+", cnts)
+  orders <- vapply(x, .MomentOrder, integer(1))
+  if (any(orders > 0)) {
+    # Polynomial histograms merge exactly: the pooled counts, means and
+    # variances are those of the union of the observations, so the
+    # merged histogram's EMDCC is the bound for the merged data.  Every
+    # input must store the same moments.
+    if (length(unique(orders)) > 1) {
+      stop("Histograms must all store the same number of per-bucket moments ",
+           "to be added together.")
+    }
+    K <- length(sum.cnts)
+    group <- rep(seq_len(K), times = length(x))
+    pooled <- .PoolBucketMoments(
+      counts = unlist(cnts),
+      means = unlist(lapply(x, function(y) y$means)),
+      variances = if (orders[1] == 2L) unlist(lapply(x, function(y) y$variances)),
+      group = group)
+    return(PreBinnedPolynomialHistogram(x[[1]]$breaks, pooled$counts, pooled$means,
+                                        pooled$variances, xname = main))
+  }
   return(.BuildHistogram(breaks = x[[1]]$breaks,
                          counts = sum.cnts,
                          xname = main))
@@ -100,7 +125,9 @@ AddHistograms <- function(..., x=list(...), main=.NewHistogramName(x)) {
 
   stopifnot(length(x) > 0)
   if (length(x) == 1) {
-    return(x)
+    # A single histogram is its own sum.
+    stopifnot(inherits(x[[1]], "histogram"))
+    return(x[[1]])
   } else {
     # length > 1
     return(.AddManyHistograms(x, main=main))
@@ -169,6 +196,10 @@ as.Message.histogram <- function(x) {
   # This catches NAs
   stopifnot(!is.null(x$breaks))
   stopifnot(is.numeric(x$breaks))
+  if (inherits(x, "polynomial.histogram")) {
+    warning("HistogramState messages carry breaks and counts only; ",
+            "the per-bucket moments are not stored.")
+  }
   if (!requireNamespace("RProtoBuf", quietly = TRUE)) {
       stop("RProtoBuf required to convert Histograms to Protocol Buffer Messages.")
   }

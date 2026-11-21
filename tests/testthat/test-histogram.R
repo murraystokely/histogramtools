@@ -99,11 +99,15 @@ test_that("PreBinnedHistogram detects non-equidist breaks", {
 
 # ----- AddHistograms edge cases ----------------------------------------------
 
-test_that("AddHistograms with a single histogram returns it (length-1 path)", {
+test_that("AddHistograms with a single histogram returns that histogram", {
   h <- PreBinnedHistogram(breaks = 0:3, counts = c(1, 2, 3))
-  out <- AddHistograms(h)
-  # The length(x) == 1 branch returns the list itself.
-  expect_equal(out, list(h))
+  # Through 0.4.1 the length(x) == 1 branch returned the list itself.
+  expect_identical(AddHistograms(h), h)
+  expect_identical(AddHistograms(x = list(h)), h)
+  p <- PreBinnedPolynomialHistogram(breaks = 0:3, counts = c(1, 2, 3),
+                                    means = c(0.5, 1.5, 2.5))
+  expect_identical(AddHistograms(p), p)
+  expect_error(AddHistograms(1:3))
 })
 
 test_that("AddHistograms errors when histograms have mismatched breakpoints", {

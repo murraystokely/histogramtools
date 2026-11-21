@@ -39,7 +39,7 @@ PlotLog2ByteEcdf <- function(x,
 #   cex.axis: cex parameter for the axes.
 #   ...: Additional arguments to pass to plot()
   if (inherits(x, "histogram")) {
-    x <- HistToEcdf(x)
+    x <- .HistToStepEcdf(x)
   }
   stopifnot(inherits(x, "ecdf"))
   power.of.two.breaks <- intersect(knots(x), 2^(0:53))
@@ -84,7 +84,7 @@ PlotLogTimeDurationEcdf <- function(x, with.grid=TRUE,
 #   ...: Additional arguments to pass to plot()
 
   if (inherits(x, "histogram")) {
-    x <- HistToEcdf(x)
+    x <- .HistToStepEcdf(x)
   }
   stopifnot(inherits(x, "ecdf"))
 

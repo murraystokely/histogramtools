@@ -43,7 +43,15 @@ KSDCC <- function(h) {
   return(max(h$counts) / sum(h$counts))
 }
 
-EMDCC <- function(h) {
+EMDCC <- function(h, ...) {
+  # Earth Mover's Distance of the Cumulative Curves.  Generic: the
+  # method for count-only histograms is below, the method for
+  # polynomial histograms (which store per-bucket moments) is in
+  # polynomial.R.
+  UseMethod("EMDCC")
+}
+
+EMDCC.histogram <- function(h, ...) {
   # Earth Mover's Distance of the Cumulative Curves
   #
   # The "Earth Mover's Distance" is like the Kolmogorov-Smirnof
@@ -98,8 +106,8 @@ PlotKSDCC <- function(h, arrow.size.scale=1, main=paste("KSDCC =", KSDCC(h)),
 
   stopifnot(inherits(h, "histogram"))
   stopifnot(is.character(main), length(main) == 1)
-  MinEcdf <- HistToEcdf(h, f=0)
-  MaxEcdf <- HistToEcdf(h, f=1)
+  MinEcdf <- .HistToStepEcdf(h, f=0)
+  MaxEcdf <- .HistToStepEcdf(h, f=1)
   plot(MaxEcdf, main=main, ...)
 
   index.of.max <- which.max(h$counts)
@@ -125,8 +133,8 @@ PlotEMDCC <- function(h, main=paste("EMDCC =", EMDCC(h)), ...) {
 
   stopifnot(inherits(h, "histogram"))
   stopifnot(is.character(main), length(main) == 1)
-  MinEcdf <- HistToEcdf(h, f=0)
-  MaxEcdf <- HistToEcdf(h, f=1)
+  MinEcdf <- .HistToStepEcdf(h, f=0)
+  MaxEcdf <- .HistToStepEcdf(h, f=1)
   plot(MaxEcdf, main=main, ...)
   rect(head(knots(MinEcdf), -1),
        MinEcdf(head(knots(MinEcdf), -1)),

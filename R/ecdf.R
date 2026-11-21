@@ -14,7 +14,15 @@
 #
 # Author: mstokely@google.com (Murray Stokely)
 
-HistToEcdf <- function(h, method="constant", f=0, inverse=FALSE) {
+HistToEcdf <- function(h, ...) {
+  # Compute an empirical cumulative distribution function from a
+  # histogram.  Generic: the method for count-only histograms is below,
+  # the method for polynomial histograms (which store per-bucket
+  # moments) is in polynomial.R.
+  UseMethod("HistToEcdf")
+}
+
+HistToEcdf.histogram <- function(h, method="constant", f=0, inverse=FALSE, ...) {
   # Compute an empirical cumulative distribution function from a histogram.
   #
   # Args:
@@ -25,10 +33,19 @@ HistToEcdf <- function(h, method="constant", f=0, inverse=FALSE) {
   #      indicating a compromise between left- and right-continuous
   #      step functions.  See ?approxfun
   #   inverse: If TRUE, return the inverse function.
+  #   ...: Unused.
   #
   # Returns:
   #   An empirical cumulative distribution function (see ?ecdf)
+  .HistToStepEcdf(h, method=method, f=f, inverse=inverse)
+}
 
+.HistToStepEcdf <- function(h, method="constant", f=0, inverse=FALSE) {
+  # The count-only ECDF of any histogram, polynomial or not: the step
+  # (or piecewise-linear) function through the cumulative counts at the
+  # breaks.  The plotting helpers use this directly so that the
+  # count-only envelope is drawn whatever class the histogram has.
+  stopifnot(inherits(h, "histogram"))
   n <- sum(h$counts)
   # We don't want to use h$mids here, because we want at least
   # to get the correct answers at the breakpoints.

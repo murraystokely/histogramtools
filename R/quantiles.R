@@ -19,7 +19,15 @@ Count <- function(x) {
   return (sum(x$counts))
 }
 
-ApproxMean <- function(x) {
+ApproxMean <- function(x, ...) {
+  # Approximate mean of the data summarized by a histogram.  Generic:
+  # count-only histograms use the bucket midpoints (below); polynomial
+  # histograms, which store each bucket's mean, recover the exact data
+  # mean (polynomial.R).
+  UseMethod("ApproxMean")
+}
+
+ApproxMean.histogram <- function(x, ...) {
   stopifnot(inherits(x, "histogram"))
   return (weighted.mean(x$mids, x$counts))
 }
@@ -31,8 +39,17 @@ ApproxMean <- function(x) {
 # Tim suggests using approx there:
 # approx(cumsum(c(0, x$counts)) / sum(x$counts, x$breaks, probs, ...)
 
-# wtd.quantile is from Hmisc package.
 ApproxQuantile <- function(x, probs, ...) {
+  # Approximate quantiles of the data summarized by a histogram.
+  # Generic: count-only histograms use the weighted quantile of the
+  # bucket midpoints (below); polynomial histograms read the quantile
+  # off the maximum-entropy reconstruction of the bucket that holds it
+  # (polynomial.R).
+  UseMethod("ApproxQuantile")
+}
+
+# wtd.quantile is from Hmisc package.
+ApproxQuantile.histogram <- function(x, probs, ...) {
   stopifnot(inherits(x, "histogram"))
   if (length(x$mids) < 100) {
     warning("Quantiles computed for histograms with fewer than 100 buckets ",
