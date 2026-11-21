@@ -46,9 +46,9 @@ Count(x)
     \code{\link[Hmisc]{wtd.quantile}}; unused otherwise.}
 }
 \details{
-Many data analysis pipelines write out histogram protocol buffers with
-thousands of buckets so as to be applicable in a wide range of
-contexts.  This function provides a way to transform the histogram into
+Telemetry and monitoring pipelines often export histograms with
+thousands of buckets so that one bucket layout serves every metric
+they record.  This function provides a way to transform the histogram into
 approximations of the quantile, median, mean, etc of the underlying
 distribution.  \code{Count(x)} returns the number of
 observations in the histogram.

@@ -40,9 +40,9 @@ Merge adjacent buckets in a histogram and return a new histogram.
     counts of adjacent buckets in the histogram.}
 }
 \details{
-Many data analysis pipelines write out histogram protocol buffers with
-thousands of buckets so as to be applicable in a wide range of
-contexts.  This function provides a way to transform the histogram into
+Telemetry and monitoring pipelines often export histograms with
+thousands of buckets so that one bucket layout serves every metric
+they record.  This function provides a way to transform the histogram into
 one with fewer buckets.
 }
 \value{
