@@ -16,7 +16,11 @@
 
 \name{quantile}
 \alias{ApproxQuantile}
+\alias{ApproxQuantile.histogram}
+\alias{ApproxQuantile.polynomial.histogram}
 \alias{ApproxMean}
+\alias{ApproxMean.histogram}
+\alias{ApproxMean.polynomial.histogram}
 \alias{Count}
 \title{Histogram Approximate Quantiles.}
 \description{
@@ -25,13 +29,21 @@ a histogram is available.
 }
 \usage{
 ApproxQuantile(x, probs, \dots)
-ApproxMean(x)
+\method{ApproxQuantile}{histogram}(x, probs, \dots)
+\method{ApproxQuantile}{polynomial.histogram}(x, probs, \dots)
+ApproxMean(x, \dots)
+\method{ApproxMean}{histogram}(x, \dots)
+\method{ApproxMean}{polynomial.histogram}(x, \dots)
 Count(x)
 }
 \arguments{
-  \item{x}{A histogram object (created by \code{\link[graphics]{hist}}).}
+  \item{x}{A histogram object (created by \code{\link[graphics]{hist}})
+    or a polynomial histogram (created by
+    \code{\link{PolynomialHistogram}}) that also stores per-bucket
+    moments.}
   \item{probs}{Numeric vector of probabilities with values in [0,1].}
-  \item{\dots}{Any other arguments to pass to \code{\link[Hmisc]{wtd.quantile}}.}
+  \item{\dots}{For ordinary histograms, any other arguments to pass to
+    \code{\link[Hmisc]{wtd.quantile}}; unused otherwise.}
 }
 \details{
 Many data analysis pipelines write out histogram protocol buffers with
@@ -40,6 +52,22 @@ contexts.  This function provides a way to transform the histogram into
 approximations of the quantile, median, mean, etc of the underlying
 distribution.  \code{Count(x)} returns the number of
 observations in the histogram.
+
+For an ordinary histogram, \code{ApproxMean} is the count-weighted
+mean of the bucket midpoints and \code{ApproxQuantile} the weighted
+quantile of the midpoints; both are accurate only with many narrow
+buckets.
+
+For a polynomial histogram the stored bucket means pool to the exact
+data mean, so \code{ApproxMean} is exact up to rounding.
+\code{ApproxQuantile} reads each quantile in three steps: locate the
+bucket holding that rank from the cumulative counts, fill that bucket
+with the maximum-entropy density that has its stored mean and
+variance (see \code{\link{HistToEcdf}}), and invert.  Only the bucket
+holding the quantile is fitted.  The rank error of the result never
+exceeds the width of the EMDCC envelope at that point, and a bucket
+whose moments determine its contents exactly (a single repeated value,
+or values on both bucket edges) returns the exact quantile.
 }
 \value{
   \code{Count} returns a single numeric value giving the total number
@@ -49,13 +77,19 @@ observations in the histogram.
   computed as a weighted mean of the bucket midpoints.
   \code{ApproxQuantile} returns a numeric vector the same length as
   \code{probs} containing approximate quantiles of the underlying
-  distribution; if \code{probs} is named the result is named
-  accordingly.
+  distribution, named as \code{\link[stats]{quantile}} names them.
+}
+\references{
+  Stokely, M., Hesterberg, T., Coehlo, N., and Merchant, A.  Worst-Case
+  Information Loss Bounds for Moment-Augmented Histograms in Cloud
+  Telemetry.  Manuscript, 2026.
 }
 \keyword{methods}
 \author{Murray Stokely \email{murray@stokely.org}}
 \seealso{
-\code{\link{HistogramTools-package}} and
+\code{\link{HistogramTools-package}},
+\code{\link{PolynomialHistogram}},
+\code{\link{HistToEcdf}}, and
 \code{\link[graphics]{hist}}.
 }
 \examples{
@@ -64,6 +98,17 @@ Count(x)
 ApproxMean(x)
 ApproxQuantile(x, .5)
 ApproxQuantile(x, c(.05, .95))
+
+# Eight wide buckets with stored moments against the true quantiles.
+set.seed(1)
+y <- rlnorm(10000)
+breaks <- c(0, 0.25, 0.5, 1, 2, 4, 8, 16, 64)
+p <- c(0.5, 0.9, 0.99)
+rbind(true=quantile(y, p),
+      count.only=ApproxQuantile(hist(y, breaks, plot=FALSE), p),
+      one.moment=ApproxQuantile(PolynomialHistogram(y, breaks, moments=1), p),
+      two.moments=ApproxQuantile(PolynomialHistogram(y, breaks, moments=2), p))
+c(mean(y), ApproxMean(PolynomialHistogram(y, breaks)))
 }
 \keyword{manip}
 \keyword{utilities}

@@ -37,8 +37,9 @@
 # the L1 distance between the highest and lowest CDFs consistent with
 # the stored statistics.  It is additive over buckets and has a closed
 # form per bucket (EMDCCPerBucket below).  The CDF and quantile
-# estimators that use the stored moments are in R/maxent.R and the
-# methods at the end of this file.
+# estimators that use the stored moments are the HistToEcdf,
+# ApproxQuantile and ApproxMean methods at the end of this file, built
+# on the maximum-entropy in-bucket reconstruction in R/maxent.R.
 
 # ----- Constructors --------------------------------------------------------
 
@@ -279,4 +280,124 @@ EMDCC.polynomial.histogram <- function(h, ...) {
   per <- EMDCCPerBucket(alpha, tau)
   per[n == 0] <- 0                     # empty buckets carry no mass
   return(sum(w * n * per) / sum(n) / diff(range(h$breaks)))
+}
+
+# ----- CDF and quantile estimation -----------------------------------------
+#
+# Each bucket is filled with the maximum-entropy density that has the
+# bucket's stored mean and variance (R/maxent.R).  Because that density
+# has the stored moments, the reconstructed CDF lies inside the EMDCC
+# envelope, so its L1 distance from the true CDF never exceeds EMDCC(h)
+# and its rank error at any quantile never exceeds the envelope width
+# there.  Some stored configurations determine the CDF exactly and need
+# no fit: a mean on a bucket edge or a zero variance is a point mass at
+# the mean, and the largest feasible variance is two atoms on the edges.
+
+.PolyBucketIndexOfRank <- function(h, p) {
+  # The bucket holding the quantile at probability p, and the fraction
+  # of that bucket's mass below the quantile.
+  cs <- cumsum(h$counts)
+  N <- cs[length(cs)]
+  target <- p * N
+  idx <- which(cs >= target & h$counts > 0)[1]
+  if (is.na(idx)) idx <- max(which(h$counts > 0))     # p = 1 on a trailing empty bucket
+  cum.before <- if (idx == 1L) 0 else cs[idx - 1L]
+  f <- (target - cum.before) / h$counts[idx]
+  list(idx = idx, f = min(max(f, 0), 1))
+}
+
+HistToEcdf.polynomial.histogram <- function(h, inverse=FALSE, ...) {
+  # The CDF reconstructed from a polynomial histogram, or its inverse.
+  #
+  # Every bucket is fitted once; the returned closure evaluates the CDF
+  # (right-continuous, with the atoms of exactly determined buckets as
+  # jumps) at any vector of values.
+  #
+  # Args:
+  #   h:       A polynomial.histogram object.
+  #   inverse: If TRUE, return the quantile function instead.
+  #   ...:     Unused.
+  #
+  # Returns:
+  #   A function.  Called with a numeric vector x it returns the
+  #   estimated cumulative probability at each x; with inverse=TRUE,
+  #   called with probabilities in [0, 1] it returns the estimated
+  #   quantiles.
+  stopifnot(inherits(h, "polynomial.histogram"))
+  stopifnot(sum(h$counts) > 0)
+  K <- length(h$counts)
+  desc <- lapply(seq_len(K), function(j) .PolyBucketDescription(h, j))
+  breaks <- h$breaks
+  width <- diff(breaks)
+  cs <- c(0, cumsum(h$counts))
+  N <- cs[K + 1L]
+  counts <- h$counts
+  if (inverse) {
+    return(function(p) {
+      stopifnot(is.numeric(p), all(p >= 0 & p <= 1, na.rm = TRUE))
+      vapply(p, function(pp) {
+        if (is.na(pp)) return(NA_real_)
+        r <- .PolyBucketIndexOfRank(h, pp)
+        .PolyBucketQuantile(desc[[r$idx]], r$f, breaks[r$idx], breaks[r$idx + 1L])
+      }, numeric(1))
+    })
+  }
+  function(x) {
+    stopifnot(is.numeric(x))
+    out <- rep(NA_real_, length(x))
+    ok <- which(!is.na(x))
+    if (!length(ok)) return(out)
+    xx <- x[ok]
+    k <- findInterval(xx, breaks, rightmost.closed = TRUE)
+    k <- pmin(pmax(k, 1L), K)
+    u <- pmin(pmax((xx - breaks[k]) / width[k], 0), 1)
+    within <- numeric(length(xx))
+    for (j in unique(k)) {
+      i <- which(k == j)
+      within[i] <- .PolyBucketCdf(desc[[j]], u[i], breaks[j], breaks[j + 1L])
+    }
+    val <- (cs[k] + within * counts[k]) / N
+    val[xx < breaks[1L]] <- 0
+    val[xx >= breaks[K + 1L]] <- 1
+    out[ok] <- val
+    out
+  }
+}
+
+ApproxQuantile.polynomial.histogram <- function(x, probs, ...) {
+  # Quantiles read off a polynomial histogram.
+  #
+  # For each probability: locate the bucket holding that rank by the
+  # cumulative counts, fit that bucket's maximum-entropy density to its
+  # stored moments, and invert.  Only the bucket holding the quantile is
+  # fitted, so the cost does not grow with the number of buckets.
+  #
+  # Args:
+  #   x:     A polynomial.histogram object.
+  #   probs: Numeric vector of probabilities in [0, 1].
+  #   ...:   Unused.
+  #
+  # Returns:
+  #   A named numeric vector of quantiles, one per probability, named
+  #   as quantile() names them.
+  stopifnot(inherits(x, "polynomial.histogram"))
+  stopifnot(is.numeric(probs), all(probs >= 0 & probs <= 1, na.rm = TRUE))
+  stopifnot(sum(x$counts) > 0)
+  q <- vapply(probs, function(p) {
+    if (is.na(p)) return(NA_real_)
+    r <- .PolyBucketIndexOfRank(x, p)
+    .PolyBucketQuantile(.PolyBucketDescription(x, r$idx), r$f,
+                        x$breaks[r$idx], x$breaks[r$idx + 1L])
+  }, numeric(1))
+  names(q) <- paste0(formatC(100 * probs, format = "fg", width = 1,
+                             digits = max(2L, getOption("digits"))), "%")
+  q
+}
+
+ApproxMean.polynomial.histogram <- function(x, ...) {
+  # The mean of the data summarized by a polynomial histogram.  The
+  # stored bucket means pool to the exact data mean, so nothing is
+  # approximated beyond floating-point rounding.
+  stopifnot(inherits(x, "polynomial.histogram"))
+  return(sum(x$counts * x$means, na.rm = TRUE) / sum(x$counts))
 }

@@ -167,9 +167,10 @@ test_that("a polynomial histogram works with the count-only functions", {
   h <- PolynomialHistogram(x, breaks = seq(0, 10, by = 0.5), moments = 2)
   h0 <- hist(x, breaks = seq(0, 10, by = 0.5), plot = FALSE)
   expect_equal(Count(h), length(x))
-  expect_equal(ApproxMean(h), ApproxMean(h0))
+  expect_equal(ApproxMean(h), mean(x))              # exact from the bucket means
+  expect_equal(ApproxMean(h0), weighted.mean(h0$mids, h0$counts))
   expect_equal(KSDCC(h), KSDCC(h0))
-  expect_equal(HistToEcdf(h)(1), HistToEcdf(h0)(1))
+  expect_equal(HistToEcdf(h)(h$breaks), HistToEcdf(h0)(h0$breaks))
   expect_no_error(with_null_pdf(plot(h)))
   expect_no_error(with_null_pdf(PlotKSDCC(h)))
 })
