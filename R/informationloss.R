@@ -43,7 +43,15 @@ KSDCC <- function(h) {
   return(max(h$counts) / sum(h$counts))
 }
 
-EMDCC <- function(h) {
+EMDCC <- function(h, ...) {
+  # Earth Mover's Distance of the Cumulative Curves.  Generic: the
+  # method for count-only histograms is below, the method for
+  # polynomial histograms (which store per-bucket moments) is in
+  # polynomial.R.
+  UseMethod("EMDCC")
+}
+
+EMDCC.histogram <- function(h, ...) {
   # Earth Mover's Distance of the Cumulative Curves
   #
   # The "Earth Mover's Distance" is like the Kolmogorov-Smirnof
