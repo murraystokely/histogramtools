@@ -31,6 +31,7 @@ Imports:
 Suggests: 
     emdist,
     gdata,
+    statmod,
     testthat (>= 3.0.0)
 Enhances: 
     RProtoBuf
