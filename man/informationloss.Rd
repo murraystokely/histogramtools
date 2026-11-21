@@ -82,7 +82,7 @@ to the count-weighted mean bucket width over the value range.  For a
 variance of each bucket, only distributions with those moments are
 consistent with the data, and the envelope between the highest and
 lowest consistent CDFs is narrower.  Its width integrates to a closed
-form per bucket (the reference, Theorems 3.1 to 3.3), implemented by
+form per bucket, implemented by
 \code{EMDCCPerBucket} on the bucket rescaled to \eqn{[0, 1]}:
 \itemize{
   \item no moments: 1;
@@ -120,11 +120,7 @@ loss metrics for the provided histogram.
 }
 \references{Douceur, John R., and William J. Bolosky. "A large-scale
   study of file-system contents." \emph{ACM SIGMETRICS Performance
-  Evaluation Review} \bold{27.1} (1999): 59-70.
-
-  Stokely, M., Hesterberg, T., Coehlo, N., and Merchant, A.  Worst-Case
-  Information Loss Bounds for Moment-Augmented Histograms in Cloud
-  Telemetry.  Manuscript, 2026.}
+  Evaluation Review} \bold{27.1} (1999): 59-70.}
 \author{Murray Stokely \email{murray@stokely.org}; the polynomial
   histogram bounds with Tim Hesterberg}
 \seealso{

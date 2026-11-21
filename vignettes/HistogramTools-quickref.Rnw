@@ -186,6 +186,15 @@ distance of the cumulative curves\\
 curves (btwn 0 and 1)\\
 \texttt{EMDCC}  & Return the Earth Mover's distance of the cumulative
 curves (btwn 0 and 1)\\
+\hline
+\multicolumn{2}{l}{Polynomial Histograms (per-bucket moments)}\\
+\hline
+\texttt{PolynomialHistogram} & Build a histogram storing each bucket's
+mean and variance\\
+\scriptsize{\texttt{PreBinnedPolynomialHistogram}} & Build one from
+pre-aggregated per-bucket statistics\\
+\texttt{EMDCCPerBucket} & Closed-form worst-case bound of one bucket
+with stored moments\\
 \end{tabular}
 \begin{tabular}[t]{@{\hspace{2mm}}l@{\hspace{2mm}}p{6.5cm}}
 \hline

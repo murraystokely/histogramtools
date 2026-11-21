@@ -65,9 +65,8 @@ optionally their variance.  Telemetry pipelines produce these
 statistics at the same cost as the count, and they tighten the
 worst-case bound on what the histogram can say about the underlying
 distribution (see \code{\link{EMDCC}}) and sharpen the quantiles read
-from it.  In the notation of the reference below, a histogram with
-\eqn{K} buckets and \eqn{p} stored moments is \eqn{H(K, p)}; an
-ordinary histogram is \eqn{H(K, 0)}.
+from it.  Writing \eqn{H(K, p)} for a histogram with \eqn{K} buckets
+and \eqn{p} stored moments, an ordinary histogram is \eqn{H(K, 0)}.
 
 The result is an object of class \code{c("polynomial.histogram",
 "histogram")}: an ordinary R histogram with the additional components
@@ -81,8 +80,8 @@ moments is 2 when \code{variances} is present and 1 otherwise.
 and computes the moments on exactly the bucket assignment that produced
 the counts, so that \code{moments=0} returns precisely what
 \code{hist(x, breaks, right, include.lowest, plot=FALSE)} returns.
-\code{right=FALSE} gives the \eqn{[a, b)} buckets, with the last one
-closed, used in the reference.
+\code{right=FALSE} gives \eqn{[a, b)} buckets with the last one
+closed.
 
 \code{PreBinnedPolynomialHistogram} is the constructor for statistics
 aggregated elsewhere, as \code{\link{PreBinnedHistogram}} is for
@@ -98,11 +97,6 @@ variance within the feasible range for its mean.
   \code{means}, a numeric vector of per-bucket means with \code{NA} for
   empty buckets, and for two moments \code{variances}, a numeric vector
   of per-bucket population variances with \code{NA} for empty buckets.
-}
-\references{
-  Stokely, M., Hesterberg, T., Coehlo, N., and Merchant, A.  Worst-Case
-  Information Loss Bounds for Moment-Augmented Histograms in Cloud
-  Telemetry.  Manuscript, 2026.
 }
 \author{Murray Stokely \email{murray@stokely.org} and Tim Hesterberg}
 \seealso{

@@ -9,6 +9,8 @@
 
 This package provides a number of utility functions useful for manipulating large histograms. This includes methods to trim, subset, merge buckets, merge histograms, convert to CDF, and calculate information loss due to binning. It also provides a protocol buffer representation of R's native histogram class to allow histograms over large data sets to be computed and combined in distributed analytical pipelines.
 
+Since 0.5.0 the package also supports *polynomial histograms*: histograms whose buckets store the mean and, optionally, the variance of their observations alongside the count. `PolynomialHistogram()` and `PreBinnedPolynomialHistogram()` build them, `EMDCC()` gives a closed-form worst-case bound on the information they lose about the underlying distribution, `AddHistograms()` merges them exactly, and `HistToEcdf()` and `ApproxQuantile()` estimate the CDF and quantiles from the stored moments.
+
 ## Installation
 
 You can either install from source via this repo, or install
@@ -26,7 +28,7 @@ It is now independently maintained by the original author.
 
 ## Authors
 
-Murray Stokely
+Murray Stokely and Tim Hesterberg
 
 ## License
 

@@ -193,15 +193,15 @@ test_that("EMDCCPerBucket with no moments is 1 and with one moment is the entrop
 })
 
 test_that("the one-moment bound crosses the matched-memory count-only bound near alpha = 0.2", {
-  # Observation 1 of the paper: a stored mean beats doubling the buckets
-  # (per-bucket bound 1/2) only when the mean lies in the outer fifth.
+  # A stored mean beats doubling the buckets (per-bucket bound 1/2) only
+  # when the mean lies in the outer fifth of the bucket.
   crossing <- uniroot(function(a) EMDCCPerBucket(a) - 1 / 2, c(0.1, 0.3), tol = 1e-10)$root
   expect_equal(round(crossing, 3), 0.200)
 })
 
 test_that("EMDCCPerBucket with two moments matches a numerical integral of the envelope", {
   gap <- function(x, a, t) {
-    # Fmax - Fmin at x, Theorems 3.2 and 3.3.
+    # Fmax - Fmin at x: the two-moment envelope width.
     c1 <- a - t / (1 - a)
     c2 <- a + t / a
     ifelse(x < c1 | x > c2, t / (t + (x - a)^2), (a * (1 - a) - t) / (x * (1 - x)))
@@ -220,10 +220,10 @@ test_that("EMDCCPerBucket with two moments matches a numerical integral of the e
   }
 })
 
-test_that("EMDCCPerBucket with two moments reproduces the Figure 5 labels and is vectorized", {
-  # Figure 5 of the paper: at mu = 0.5 and sigma^2 = 0.025, 0.075, 0.15,
-  # 0.225 the per-bucket EMDCC is about 0.39, 0.53, 0.47 and 0.20; only
-  # the last lies below the H(3K, 0) baseline of 1/3.
+test_that("EMDCCPerBucket with two moments gives the known values at mu = 0.5 and is vectorized", {
+  # At mu = 0.5 and sigma^2 = 0.025, 0.075, 0.15, 0.225 the per-bucket
+  # EMDCC is about 0.39, 0.53, 0.47 and 0.20; only the last lies below
+  # the matched-memory H(3K, 0) baseline of 1/3.
   mu <- rep(0.5, 4)
   s2 <- c(0.025, 0.075, 0.15, 0.225)
   e <- EMDCCPerBucket(mu, s2)

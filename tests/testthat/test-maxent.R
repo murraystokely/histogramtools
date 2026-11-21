@@ -63,8 +63,7 @@ test_that("the one-moment CDF is a valid CDF with the stored mean, and its inver
 test_that("the two-moment fit matches the stored mean and variance across the feasible region", {
   # alpha from a near point mass at the edge to the center; tau as a
   # fraction of its maximum alpha (1 - alpha) from a near point mass to
-  # a near pair of edge atoms.  Mirrors the sweep in the paper's
-  # verification script.
+  # a near pair of edge atoms.
   alphas <- c(1e-10, 1e-6, 1e-3, 0.1, 0.3, 0.5)
   fracs <- c(1e-12, 1e-8, 1e-4, 1e-2, 0.3, 0.9, 0.999, 1 - 1e-8)
   u <- seq(0, 1, length.out = 2001)

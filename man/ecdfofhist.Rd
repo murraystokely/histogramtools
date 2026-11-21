@@ -80,11 +80,6 @@ HistToEcdf(h, \dots)
   \code{\link[graphics]{curve}} or \code{plot(F, from, to)} rather than
   \code{plot.ecdf}.
 }
-\references{
-  Stokely, M., Hesterberg, T., Coehlo, N., and Merchant, A.  Worst-Case
-  Information Loss Bounds for Moment-Augmented Histograms in Cloud
-  Telemetry.  Manuscript, 2026.
-}
 \author{Murray Stokely \email{murray@stokely.org}}
 \seealso{
 \code{\link{HistogramTools-package}},

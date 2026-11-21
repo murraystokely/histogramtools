@@ -562,7 +562,7 @@ PlotKSDCC(h2, 0.2, main="CDF with KSDCC")
 \label{fig:KSDCC}
 \end{figure}
 
-\subsection{Earth Mover's Distance of the Cumulative Curves}
+\subsection{Earth Mover's Distance of the Cumulative Curves}\label{sec:emdcc}
 % The histograms above were generated using the default computed
 %breakpoints of R, which uses a modified algorithm from
 %\cite{sturges1926choice}.  However, for our actual data analysis tasks
@@ -646,6 +646,132 @@ EMDCC(h2)
 So, using this metric, the second lower example with more granular
 histogram bins produces an ECDF with reduced worst case error bounds
 compared to the one with default buckets, as expected.
+
+\section{Polynomial Histograms}
+\label{sec:polynomial}
+
+A histogram records how many observations fell in each bucket and
+nothing about where in the bucket they fell.  A \emph{polynomial
+histogram} also records, for each bucket, the sample mean of its
+observations and optionally their variance.  Telemetry pipelines
+produce these statistics at the same cost as the count, and they
+narrow the band of distributions consistent with the summary.  Writing
+$H(K, p)$ for $K$ buckets with $p$ stored moments, an ordinary
+histogram is $H(K, 0)$ and the two annotated forms are $H(K, 1)$ and
+$H(K, 2)$.
+
+\code{PolynomialHistogram} builds one from raw data on the same
+buckets \code{hist} would use, and \code{PreBinnedPolynomialHistogram}
+from statistics aggregated elsewhere.  The result inherits from
+\code{histogram}, with the additional components \code{means} and
+\code{variances}, so every function above works on it unchanged.
+
+<<echo=TRUE>>=
+set.seed(1)
+x <- rlnorm(10000)
+breaks <- c(0, 0.25, 0.5, 1, 2, 4, 8, 16, 32, 64)
+h0 <- PolynomialHistogram(x, breaks, moments=0)   # identical to hist()
+h1 <- PolynomialHistogram(x, breaks, moments=1)
+h2 <- PolynomialHistogram(x, breaks, moments=2)
+class(h2)
+rbind(counts=h2$counts, means=round(h2$means, 3),
+      variances=round(h2$variances, 4))
+@
+
+\subsection{Worst-Case Information Loss}
+
+The EMDCC of Section~\ref{sec:emdcc} extends to polynomial
+histograms.  Only distributions with the stored mean and variance are
+consistent with a bucket, so the envelope between the highest and
+lowest consistent CDFs is narrower than the full bucket, and its
+width integrates to a closed form.  On a bucket rescaled to $[0, 1]$
+with mean $\alpha$ the one-moment bound is
+$-\alpha \log \alpha - (1 - \alpha) \log(1 - \alpha)$: zero for a mean
+on an edge (a point mass) and $\log 2$ at the center.  The two-moment
+bound, with variance $\tau$, is zero both for $\tau = 0$ (a point
+mass) and for the largest feasible variance $\tau = \alpha(1 -
+\alpha)$ (two atoms on the edges), and positive in between.
+\code{EMDCCPerBucket} gives these per-bucket values and \code{EMDCC}
+their count-weighted total over the value range.
+
+<<echo=TRUE>>=
+c(H0=EMDCC(h0), H1=EMDCC(h1), H2=EMDCC(h2))
+EMDCCPerBucket(alpha=c(0.05, 0.2, 0.5))
+EMDCCPerBucket(alpha=rep(0.5, 4), tau=c(0, 0.025, 0.15, 0.25))
+@
+
+A stored mean costs one more number per bucket, so the fair
+comparison is against a count-only histogram with twice the buckets;
+the one-moment bound beats it only where the mean lies in the outer
+fifth of its bucket.
+
+<<echo=TRUE>>=
+breaks2 <- sort(c(breaks, head(breaks, -1) + diff(breaks) / 2))
+c(H1=EMDCC(h1), H0.doubled=EMDCC(hist(x, breaks2, plot=FALSE)))
+@
+
+\subsection{Estimating the CDF and Quantiles}
+
+The bound holds for every estimator consistent with the stored
+statistics.  The package's estimator fills each bucket with the
+maximum-entropy density that has the bucket's stored mean and
+variance, which assumes nothing beyond the stored moments, so the
+reconstructed CDF lies inside the envelope and its $L_1$ distance from
+the true CDF never exceeds the EMDCC.  A bucket whose statistics
+determine its contents exactly (an edge mean, a zero variance, or the
+maximum variance) is reconstructed as the corresponding atoms.
+\code{HistToEcdf} returns the reconstructed CDF as a function, and
+\code{ApproxQuantile} reads a quantile by locating its bucket from the
+cumulative counts, fitting that bucket alone, and inverting.
+
+<<echo=TRUE>>=
+p <- c(0.5, 0.9, 0.99)
+rbind(true=quantile(x, p),
+      H0=ApproxQuantile(h0, p), H1=ApproxQuantile(h1, p),
+      H2=ApproxQuantile(h2, p))
+c(mean(x), ApproxMean(h0), ApproxMean(h2))
+@
+
+<<polycdf,fig=TRUE,include=FALSE,echo=TRUE,height=4,width=8>>=
+F0 <- HistToEcdf(h0, method="linear")
+F2 <- HistToEcdf(h2)
+plot(ecdf(x), xlim=c(0, 6), do.points=FALSE, verticals=TRUE,
+     main="CDF of x reconstructed from 9 buckets", lwd=4, col="gray")
+curve(F0, 0, 6, add=TRUE, col="blue", lty=2, lwd=2, n=1001)
+curve(F2, 0, 6, add=TRUE, col="red", lwd=2, n=1001)
+abline(v=breaks, col="lightgray", lty=3)
+legend("bottomright", c("data", "H(K,0), linear", "H(K,2), max-entropy"),
+       col=c("gray", "blue", "red"), lty=c(1, 2, 1), lwd=c(4, 2, 2))
+@
+
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width=6in,height=3in]{HistogramTools-polycdf}
+\end{center}
+\caption{The CDF of 10,000 lognormal observations and its
+reconstruction from nine buckets with counts only (linear within each
+bucket) and with the mean and variance of each bucket (maximum-entropy
+density within each bucket).}
+\label{fig:polycdf}
+\end{figure}
+
+\subsection{Merging}
+
+Polynomial histograms built on parts of a data set merge to the
+histogram of the whole: the counts add, the means combine
+count-weighted, and the variances combine by the parallel-variance
+formula.  \code{AddHistograms} does this, so per-process histograms
+can be summed into a fleet-wide one with no loss and the merged EMDCC
+is the bound for the merged data.  \code{MergeBuckets},
+\code{SubsetHistogram} and \code{TrimHistogram} keep the moments
+aligned with the buckets they return.
+
+<<echo=TRUE>>=
+p1 <- PolynomialHistogram(x[1:5000], breaks, moments=2)
+p2 <- PolynomialHistogram(x[5001:10000], breaks, moments=2)
+all.equal(AddHistograms(p1, p2)[c("counts", "means", "variances")],
+          h2[c("counts", "means", "variances")])
+@
 
 %\begin{figure}[h!]
 %\begin{center}

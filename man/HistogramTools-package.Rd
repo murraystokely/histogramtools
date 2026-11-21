@@ -11,7 +11,11 @@
   manipulating R's native histogram objects.  The functions are focused
   on operations that are particularly useful when dealing with large
   numbers of histograms with identical buckets, such as those produced
-  from distributed MapReduce computations.  This package also provides a
+  from distributed MapReduce computations.  Polynomial histograms,
+  which store the mean and variance of each bucket alongside its count,
+  are supported with a closed-form worst-case information-loss bound
+  and CDF and quantile estimation from the stored moments (see
+  \code{\link{PolynomialHistogram}}).  This package also provides a
   \file{HistogramTools.HistogramState} protocol buffer representation of
   the default R histogram class to allow histograms to be very concisely
   serialized and shared with other systems.

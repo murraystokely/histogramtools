@@ -29,9 +29,8 @@
 #              empty; absent when only the mean is stored.
 #
 # The number of stored moments is 2 when variances is present and 1
-# otherwise.  In the notation of Stokely, Hesterberg, Coehlo and
-# Merchant (2027) these are H(K, 1) and H(K, 2); a plain histogram is
-# H(K, 0).
+# otherwise.  Writing H(K, p) for K buckets with p stored moments,
+# these are H(K, 1) and H(K, 2); a plain histogram is H(K, 0).
 #
 # The worst-case information loss of a polynomial histogram, EMDCC, is
 # the L1 distance between the highest and lowest CDFs consistent with
@@ -82,8 +81,8 @@ PolynomialHistogram <- function(x, breaks="Sturges", moments=1, right=TRUE,
   #
   # The breaks and counts come from hist(), with the same bucket
   # convention arguments, so that moments=0 returns exactly what hist()
-  # returns.  right=FALSE gives the [a, b) buckets with the last one
-  # closed used in the paper.
+  # returns.  right=FALSE gives [a, b) buckets with the last one
+  # closed.
   #
   # Args:
   #   x:              Numeric vector of observations.  Non-finite values
@@ -255,12 +254,12 @@ EMDCCPerBucket <- function(alpha=NULL, tau=NULL) {
   # No moments: with no information beyond the count, Fmax puts the
   #   whole mass at the left edge and Fmin at the right edge, so the
   #   envelope is 1 across the unit bucket.
-  # One moment (Theorem 3.1 of the paper): the envelope is
+  # One moment: the envelope is
   #   (1 - alpha) / (1 - x) below the mean and alpha / x above it;
   #   integrating gives
   #       -(1 - alpha) log(1 - alpha) - alpha log(alpha).
   #   A mean at an edge is a point mass, so 0.
-  # Two moments (Theorems 3.2 and 3.3): the envelope is
+  # Two moments: the envelope is
   #   p3 = tau / (tau + (x - alpha)^2) for x outside [c1, c2] and
   #   p4 = (alpha (1 - alpha) - tau) / (x (1 - x)) inside it, where
   #   c1 = alpha - tau / (1 - alpha) and c2 = alpha + tau / alpha.  With
