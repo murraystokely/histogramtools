@@ -194,6 +194,53 @@ PreBinnedPolynomialHistogram <- function(breaks, counts, means, variances=NULL,
   h
 }
 
+# ----- Merging ---------------------------------------------------------------
+
+.PoolBucketMoments <- function(counts, means, variances=NULL, group) {
+  # Pools per-bucket statistics over groups of buckets: the counts add,
+  # the means combine count-weighted, and the variances combine as the
+  # count-weighted mean of the within-group variances plus the
+  # count-weighted spread of the group means about the pooled mean
+  # (the parallel-variance formula of Chan, Golub and LeVeque, 1979).
+  # The pooled statistics are exactly those of the union of the
+  # observations, so merging polynomial histograms loses nothing and
+  # the EMDCC of the result is the bound for the merged data.
+  #
+  # Args:
+  #   counts:    Numeric vector of bucket counts.
+  #   means:     Numeric vector of bucket means (NA where empty).
+  #   variances: Optional numeric vector of bucket variances.
+  #   group:     Integer vector, the group of each bucket, in 1:G.
+  #
+  # Returns:
+  #   A list with counts, means and (if given) variances of length G.
+  G <- max(group)
+  n <- counts
+  m <- ifelse(n > 0, means, 0)
+  N <- as.vector(rowsum(n, group, reorder = TRUE))
+  present <- sort(unique(group))
+  N.full <- numeric(G)
+  N.full[present] <- N
+  M <- numeric(G)
+  M[present] <- as.vector(rowsum(n * m, group, reorder = TRUE))
+  M <- ifelse(N.full > 0, M / N.full, NA_real_)
+  out <- list(counts = N.full, means = M)
+  if (!is.null(variances)) {
+    v <- ifelse(n > 0, variances, 0)
+    V <- numeric(G)
+    V[present] <- as.vector(rowsum(n * (v + (m - ifelse(is.na(M), 0, M)[group])^2),
+                                   group, reorder = TRUE))
+    out$variances <- ifelse(N.full > 0, V / N.full, NA_real_)
+  }
+  out
+}
+
+.MomentOrder <- function(h) {
+  # 0 for a count-only histogram, 1 or 2 for a polynomial histogram.
+  if (!inherits(h, "polynomial.histogram")) return(0L)
+  if (is.null(h$variances)) 1L else 2L
+}
+
 # ----- Worst-case information loss ------------------------------------------
 
 EMDCCPerBucket <- function(alpha=NULL, tau=NULL) {

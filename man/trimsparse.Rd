@@ -13,7 +13,10 @@ Removes empty consecutive buckets at the tails of a histogram.
 TrimHistogram(x, left=TRUE, right=TRUE)
 }
 \arguments{
-  \item{x}{A histogram object (created by \code{\link[graphics]{hist}}).}
+  \item{x}{A histogram object (created by \code{\link[graphics]{hist}})
+    or a polynomial histogram (created by
+    \code{\link{PolynomialHistogram}}), whose per-bucket moments are
+    kept for the retained buckets.}
   \item{left}{If \code{TRUE}, consecutive buckets in the left tail of the
     histogram without any elements will
     be removed from the returned histogram.}
